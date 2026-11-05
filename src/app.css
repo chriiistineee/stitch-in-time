@@ -1,0 +1,145 @@
+/* Layout and type come from the Figma file (PiP Pomodoro States).
+   The solid gray surfaces become clear glass, and text is white. */
+:root {
+  --pink-1: #e39ead;
+  --pink-2: #bf788a;
+  --pink-check: #cc8799;
+  --pink-grad: linear-gradient(180deg, var(--pink-1), var(--pink-2));
+  --pink-glow: drop-shadow(0 10px 10px rgba(204, 115, 135, 0.38));
+
+  --text: #ffffff;
+  --muted: rgba(255, 255, 255, 0.72);
+  --faint: rgba(255, 255, 255, 0.5);
+  --text-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+
+  /* Recessed track (Figma #f0f0f0 + inner shadow) */
+  --well: rgba(255, 255, 255, 0.1);
+  --well-shadow: inset 2px 3px 8px rgba(0, 0, 0, 0.12);
+  /* Raised surface (Figma white / #f6f6f6 + soft shadow) */
+  --raised: rgba(255, 255, 255, 0.2);
+  --raised-strong: rgba(255, 255, 255, 0.34);
+  --edge: rgba(255, 255, 255, 0.38);
+  --raised-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+
+  --radius: 44px;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  /* The window is transparent. macOS Liquid Glass draws behind the page. */
+  background: transparent;
+  overflow: hidden;
+  font-family: 'Space Grotesk', -apple-system, sans-serif;
+  font-weight: 500;
+  line-height: normal;
+  color: var(--text);
+  text-shadow: var(--text-shadow);
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: default;
+}
+
+/* Plain-browser preview only: a stand-in for the desktop and the glass. */
+html.browser body {
+  background: radial-gradient(circle at 15% 20%, #f2a7b9, transparent 45%),
+    radial-gradient(circle at 85% 30%, #7fb2e6, transparent 50%),
+    radial-gradient(circle at 50% 90%, #8d7fd6, transparent 55%), #5d6f94;
+}
+html.browser .shell,
+html.browser .pill {
+  backdrop-filter: blur(24px) saturate(1.6);
+  -webkit-backdrop-filter: blur(24px) saturate(1.6);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  text-shadow: inherit;
+  border: 0;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+}
+button:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+input {
+  font: inherit;
+  color: inherit;
+  user-select: text;
+  -webkit-user-select: text;
+}
+input::placeholder {
+  color: var(--muted);
+}
+:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 2px;
+}
+
+.well {
+  background: var(--well);
+  box-shadow: var(--well-shadow);
+}
+.raised {
+  background: var(--raised);
+  box-shadow: var(--raised-shadow);
+  border: 1px solid var(--edge);
+}
+
+/* Figma Button/primary: 58 high, radius 29, 16 bold white */
+.primary {
+  height: 58px;
+  border-radius: 29px;
+  background: var(--pink-grad);
+  filter: var(--pink-glow);
+  color: white;
+  font-weight: 700;
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Figma Task Chip: 50 high, radius 25, padding 0 18, gap 10 */
+.chip {
+  height: 50px;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 18px;
+  font-size: 15px;
+  width: 100%;
+}
+
+.circle {
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+
+.link {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
+}
+.link:hover {
+  color: var(--text);
+}
+
+.muted {
+  color: var(--muted);
+}

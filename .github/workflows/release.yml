@@ -1,0 +1,48 @@
+name: Release
+
+# Push a tag such as v0.1.0 to build a universal macOS .dmg as a draft release.
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin,x86_64-apple-darwin
+
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri -> target
+
+      - run: npm ci
+
+      - run: npm test
+
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: ${{ github.ref_name }}
+          releaseName: Stitch in Time ${{ github.ref_name }}
+          releaseBody: |
+            Download the .dmg, open it, and drag Stitch in Time to Applications.
+
+            This build is not signed. On first launch macOS blocks it. To open it, do one of these:
+            - Open System Settings > Privacy & Security, then click Open Anyway.
+            - Run `xattr -cr "/Applications/Stitch in Time.app"` in Terminal.
+          releaseDraft: true
+          prerelease: false
+          args: --target universal-apple-darwin
